@@ -89,6 +89,7 @@ CREATE TEMP TABLE some_table2 AS
 -- filter by last day of year
 CREATE TEMP TABLE some_table3 AS
     SELECT  symbol,
+            "date",
             year,
             close_price
     FROM some_table2
@@ -98,6 +99,7 @@ CREATE TEMP TABLE some_table3 AS
 -- add last_year_close_price column
 CREATE TEMP TABLE some_table4 AS
     SELECT  symbol,
+            "date",
             year,
             close_price,
             LEAD (close_price, 1) OVER (PARTITION BY symbol ORDER BY year DESC) AS last_year_close_price
@@ -106,6 +108,7 @@ CREATE TEMP TABLE some_table4 AS
 -- compute annual returns by symbol and year
 CREATE TEMP TABLE annual_returns AS
     SELECT  symbol,
+            "date",
             year,
             close_price,
             last_year_close_price,
@@ -118,7 +121,7 @@ CREATE TEMP TABLE annual_returns AS
 
 -- top companies sorted by performance
 CREATE TABLE top_performers AS
-    SELECT symbol, year, annual_return
+    SELECT symbol, year, "date" as year_ends, annual_return
     FROM annual_returns
     WHERE annual_return IS NOT NULL
     ORDER BY annual_return DESC
