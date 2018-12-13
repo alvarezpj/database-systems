@@ -268,7 +268,7 @@ CREATE TEMP TABLE common_factors AS
 
 -- select top companies with net worth growth and revenue growth greater than 1%
 -- this gives about 27 companies only
-CREATE TEMP TABLE potential_candidates AS
+CREATE TABLE potential_candidates AS
     SELECT symbol, net_worth_growth, revenue_growth
     FROM common_factors
     WHERE net_worth_growth > 1.0
